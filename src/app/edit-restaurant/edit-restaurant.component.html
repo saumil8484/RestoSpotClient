@@ -1,0 +1,48 @@
+<div class="container my-5">
+    <h1 class="mb-3">Edit Restaurant Details</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <form #form="ngForm" (ngSubmit)="updateRestaurant()">
+                <div class="mb-3">
+                    <label for="id" class="form-label">Restaurant Id</label>
+                    <input type="text" class="form-control" id="id" name="id" readonly [(ngModel)]="restaurantDetails.restaurantId">
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Restaurant Name</label>
+                    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="restaurantDetails.name">
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" [(ngModel)]="restaurantDetails.address">
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <select name="City" class="form-control" [(ngModel)]="restaurantDetails.cityid">
+                        <option [value]="city.cityId" *ngFor="let city of citiesInformation">
+                            {{ city.city}}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="cuisine" class="form-label">Cuisine</label>
+                    <select name="Cuisine" class="form-control" [(ngModel)]="restaurantDetails.cuisineid">
+                        <option [value]="cuis.cuisineId" *ngFor="let cuis of cuisinesInformation">
+                            {{ cuis.cuisine}}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="number" class="form-control" id="rating" name="rating" [(ngModel)]="restaurantDetails.rating">
+                </div>
+                <div class="mb-3">
+                    <label for="reviews" class="form-label">Reviews</label>
+                    <input type="text" class="form-control" id="reviews" name="reviews" [(ngModel)]="restaurantDetails.reviews">
+                </div>
+                <button type="submit" class="btn btn-primary mr-5">Save</button>
+                <button type="button" class="btn btn-danger" (click)="deleteRestaurant(restaurantDetails.restaurantId)">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>

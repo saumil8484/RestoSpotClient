@@ -1,0 +1,85 @@
+<div class="container my-5">
+    <h1 class="mb-3">Restaurants</h1>
+
+    <ng-container *ngIf="restaurantsInformation && restaurantsInformation.length > 0">
+        <div class=" col-sm-3">
+            <select name="Cuisine" (change)="ChangeCuisine($event)" class="form-control">
+                <option [value]=0>Select Cuisine</option>
+                <option [value]="res.cuisine" *ngFor="let res of restaurantsInformation">
+                    {{ res.cuisine}}
+                </option>
+            </select>
+            <select name="City" (change)="ChangeCity($event)" class="form-control">
+                <option [value]=0>Select City</option>
+                <option [value]="res.city" *ngFor="let res of restaurantsInformation">
+                    {{ res.city}}
+                </option>
+            </select>
+            <button type="button" class="btn btn-warning mr-5" (click)="ClearSearch()">Clear Search</button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Cuisine</th>
+                    <th>Rating</th>
+                    <th>No. of Reviews</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let restaurantInformation of restaurantsInformation">
+                    <ng-container *ngIf="SelectedCuisine==0 && SelectedCity==0">
+                        <td>{{ restaurantInformation.name }}</td>
+                        <td>{{ restaurantInformation.address }}</td>
+                        <td>{{ restaurantInformation.city }}</td>
+                        <td>{{ restaurantInformation.cuisine }}</td>
+                        <td>{{ restaurantInformation.rating }}</td>
+                        <td>{{ restaurantInformation.reviews }}</td>
+                        <td><button type="button" class="btn btn-info mr-5" [routerLink]="['/restaurants', 'edit', restaurantInformation.restaurantId]">View</button></td>
+                    </ng-container>
+                    <ng-container *ngIf="SelectedCuisine && SelectedCity==0">
+                        <ng-container *ngIf="restaurantInformation.cuisine == SelectedCuisine">
+                            <td>{{ restaurantInformation.name }}</td>
+                            <td>{{ restaurantInformation.address }}</td>
+                            <td>{{ restaurantInformation.city }}</td>
+                            <td>{{ restaurantInformation.cuisine }}</td>
+                            <td>{{ restaurantInformation.rating }}</td>
+                            <td>{{ restaurantInformation.reviews }}</td>
+                            <td><button type="button" class="btn btn-info mr-5" [routerLink]="['/restaurants', 'edit', restaurantInformation.restaurantId]">View</button></td>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="SelectedCuisine==0 && SelectedCity">
+                        <ng-container *ngIf="restaurantInformation.city == SelectedCity">
+                            <td>{{ restaurantInformation.name }}</td>
+                            <td>{{ restaurantInformation.address }}</td>
+                            <td>{{ restaurantInformation.city }}</td>
+                            <td>{{ restaurantInformation.cuisine }}</td>
+                            <td>{{ restaurantInformation.rating }}</td>
+                            <td>{{ restaurantInformation.reviews }}</td>
+                            <td><button type="button" class="btn btn-info mr-5" [routerLink]="['/restaurants', 'edit', restaurantInformation.restaurantId]">View</button></td>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="SelectedCuisine && SelectedCity">
+                        <ng-container *ngIf="restaurantInformation.cuisine == SelectedCuisine && restaurantInformation.city == SelectedCity">
+                            <td>{{ restaurantInformation.name }}</td>
+                            <td>{{ restaurantInformation.address }}</td>
+                            <td>{{ restaurantInformation.city }}</td>
+                            <td>{{ restaurantInformation.cuisine }}</td>
+                            <td>{{ restaurantInformation.rating }}</td>
+                            <td>{{ restaurantInformation.reviews }}</td>
+                            <td><button type="button" class="btn btn-info mr-5" [routerLink]="['/restaurants', 'edit', restaurantInformation.restaurantId]">View</button></td>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    <p *ngIf="!restaurantsInformation || restaurantsInformation.length <= 0">
+        No restaurants found !
+    </p>
+
+</div>

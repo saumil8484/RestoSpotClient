@@ -1,0 +1,33 @@
+<div class="container my-5">
+    <h1 class="mb-3">Add New Cuisine</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <form #form="ngForm" (ngSubmit)="addCuisine()">
+                <div class="mb-3">
+                    <label for="cuisine" class="form-label">Cuisine</label>
+                    <input type="text" class="form-control" id="cuisine" name="cuisine" [(ngModel)]="addCuisineRequest.cuisine">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <ng-container *ngIf="cuisinesInformation && cuisinesInformation.length > 0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cuisine</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cuisineInformation of cuisinesInformation">
+                    <td>{{ cuisineInformation.cuisine }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    <p *ngIf="!cuisinesInformation || cuisinesInformation.length <= 0">
+        No cuisine records found !
+    </p>
+</div>

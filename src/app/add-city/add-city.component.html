@@ -1,0 +1,33 @@
+<div class="container my-5">
+    <h1 class="mb-3">Add New City</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <form #form="ngForm" (ngSubmit)="addCity()">
+                <div class="mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" name="city" [(ngModel)]="addCityRequest.city">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <ng-container *ngIf="citiesInformation && citiesInformation.length > 0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cities</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cityInformation of citiesInformation">
+                    <td>{{ cityInformation.city }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    <p *ngIf="!citiesInformation || citiesInformation.length <= 0">
+        No city records found !
+    </p>
+</div>
