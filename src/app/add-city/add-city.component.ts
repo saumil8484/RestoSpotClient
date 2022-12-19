@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { City } from '../Models/city.model';
 import { CitiesService } from '../Services/cities.service';
 
@@ -17,13 +18,12 @@ export class AddCityComponent implements OnInit {
     city: ''
   }
   
-  constructor(private cityService: CitiesService, private router: Router) { }
+  constructor(private cityService: CitiesService, private router: Router, private toast: NgToastService) { }
 
   ngOnInit(): void {
     this.cityService.getAllCities()
     .subscribe({
       next: (citiesInformation) => {
-        console.log(citiesInformation);
         this.citiesInformation = citiesInformation
       },
       error: (response) => {
@@ -36,6 +36,7 @@ export class AddCityComponent implements OnInit {
     this.cityService.addCity(this.addCityRequest)
     .subscribe({
       next: (City) => {
+        this.toast.success({detail:"Added", summary: this.addCityRequest.city + " city added successfully !", duration: 5000});
         this.router.navigate(['restaurants']);
       }
     });

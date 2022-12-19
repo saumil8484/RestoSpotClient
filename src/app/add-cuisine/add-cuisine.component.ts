@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { Cuisine } from '../Models/cuisine.model';
 import { CuisinesService } from '../Services/cuisines.service';
 
@@ -17,13 +18,12 @@ export class AddCuisineComponent implements OnInit {
     cuisine: ''
   }
 
-  constructor(private cuisineService: CuisinesService, private router: Router) { }
+  constructor(private cuisineService: CuisinesService, private router: Router, private toast: NgToastService) { }
 
   ngOnInit(): void {
     this.cuisineService.getAllCuisines()
     .subscribe({
       next: (cuisinesInformation) => {
-        console.log(cuisinesInformation);
         this.cuisinesInformation = cuisinesInformation
       },
       error: (response) => {
@@ -36,6 +36,7 @@ export class AddCuisineComponent implements OnInit {
     this.cuisineService.addCuisine(this.addCuisineRequest)
     .subscribe({
       next: (Cuisine) => {
+        this.toast.success({detail:"Added", summary: this.addCuisineRequest.cuisine + " cuisine added successfully !", duration: 5000});
         this.router.navigate(['restaurants']);
       }
     });

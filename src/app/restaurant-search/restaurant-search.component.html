@@ -1,3 +1,5 @@
+<app-nav-bar></app-nav-bar>
+
 <div class="container my-5">
     <h1 class="mb-3">Restaurants</h1>
 
@@ -5,20 +7,20 @@
         <div class=" col-sm-3">
             <select name="Cuisine" (change)="ChangeCuisine($event)" class="form-control">
                 <option [value]=0>Select Cuisine</option>
-                <option [value]="res.cuisine" *ngFor="let res of restaurantsInformation">
-                    {{ res.cuisine}}
+                <option [value]="cus.cuisine" *ngFor="let cus of cuisinesInformation">
+                    {{ cus.cuisine}}
                 </option>
             </select>
             <select name="City" (change)="ChangeCity($event)" class="form-control">
                 <option [value]=0>Select City</option>
-                <option [value]="res.city" *ngFor="let res of restaurantsInformation">
-                    {{ res.city}}
+                <option [value]="city.city" *ngFor="let city of citiesInformation">
+                    {{ city.city}}
                 </option>
             </select>
             <button type="button" class="btn btn-warning mr-5" (click)="ClearSearch()">Clear Search</button>
         </div>
 
-        <table class="table">
+        <table class="table" style="text-align: center;">
             <thead>
                 <tr>
                     <th>Name</th>

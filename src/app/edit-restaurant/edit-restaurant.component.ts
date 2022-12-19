@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { City } from '../Models/city.model';
 import { Cuisine } from '../Models/cuisine.model';
 import { Restaurant } from '../Models/restaurant.model';
@@ -27,7 +28,7 @@ export class EditRestaurantComponent implements OnInit {
     reviews: 0
   };
 
-  constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService, private cuisineService: CuisinesService, private cityService: CitiesService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService, private cuisineService: CuisinesService, private cityService: CitiesService, private router: Router, private toast: NgToastService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe({
@@ -48,7 +49,6 @@ export class EditRestaurantComponent implements OnInit {
     this.cuisineService.getAllCuisines()
     .subscribe({
       next: (cuisinesInformation) => {
-        console.log(cuisinesInformation);
         this.cuisinesInformation = cuisinesInformation
       },
       error: (response) => {
@@ -59,7 +59,6 @@ export class EditRestaurantComponent implements OnInit {
     this.cityService.getAllCities()
     .subscribe({
       next: (citiesInformation) => {
-        console.log(citiesInformation);
         this.citiesInformation = citiesInformation
       },
       error: (response) => {
@@ -72,6 +71,7 @@ export class EditRestaurantComponent implements OnInit {
     this.restaurantService.updateRestaurant(this.restaurantDetails.restaurantId, this.restaurantDetails)
     .subscribe({
       next: (response) => {
+        this.toast.success({detail:"Updated", summary: this.restaurantDetails.name + "'s details updated successfully !", duration: 5000});
         this.router.navigate(['restaurants']);
       }
     });
@@ -81,6 +81,7 @@ export class EditRestaurantComponent implements OnInit {
     this.restaurantService.deleteRestaurant(id)
     .subscribe({
       next: (response) => {
+        this.toast.success({detail:"Deleted", summary: this.restaurantDetails.name + "'s details deleted successfully !", duration: 5000});
         this.router.navigate(['restaurants']);
       }
     });
