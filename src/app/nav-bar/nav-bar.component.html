@@ -7,7 +7,7 @@
                     <a class="nav-link active" aria-current="page" routerLink="/restaurants">Restaurants</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Add</a>
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Add</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" aria-current="page" routerLink="/restaurants/add">Add Restaurant</a></li>
                         <li><a class="dropdown-item" aria-current="page" routerLink="/cuisines/add">Add Cuisine</a></li>
@@ -16,8 +16,11 @@
                 </li>
             </ul>
         </div>
-        <span class="navbar-nav nav-item" style="text-align: right;">
-            <a class="nav-link active" aria-current="page" (click)="Logout()">Logout</a>
+        <span class="navbar-nav nav-item dropdown" >
+            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hi, {{ fullName }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" aria-current="page" (click)="Logout()">Logout</a></li>
+                    </ul>
         </span>
     </div>
 </nav>  

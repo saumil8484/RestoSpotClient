@@ -5,43 +5,49 @@
 
     <div class="row">
         <div class="col-6">
-            <form #form="ngForm" (ngSubmit)="updateRestaurant()">
-                <div class="mb-3">
+            <form #form="ngForm" (ngSubmit)="updateRestaurant()" [formGroup]="editRestaurantForm">
+                <div class="mb-3" class="text-danger">
                     <label for="id" class="form-label">Restaurant Id</label>
-                    <input type="text" class="form-control" id="id" name="id" readonly [(ngModel)]="restaurantDetails.restaurantId">
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly [(ngModel)]="restaurantDetails.restaurantId">
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" [class.error]="editRestaurantForm.controls['name'].dirty && editRestaurantForm.hasError('required', 'name')" class="text-danger">
                     <label for="name" class="form-label">Restaurant Name</label>
-                    <input type="text" class="form-control" id="name" name="name" [(ngModel)]="restaurantDetails.name">
+                    <input type="text" class="form-control" id="name" name="name" formControlName="name" [(ngModel)]="restaurantDetails.name">
                 </div>
-                <div class="mb-3">
+                <small *ngIf="editRestaurantForm.controls['name'].dirty && editRestaurantForm.hasError('required', 'name')" class="text-danger">*Restaurant Name is required</small>
+                <div class="mb-3" [class.error]="editRestaurantForm.controls['address'].dirty && editRestaurantForm.hasError('required', 'address')" class="text-danger">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" [(ngModel)]="restaurantDetails.address">
+                    <input type="text" class="form-control" id="address" name="address" formControlName="address" [(ngModel)]="restaurantDetails.address">
                 </div>
-                <div class="mb-3">
+                <small *ngIf="editRestaurantForm.controls['address'].dirty && editRestaurantForm.hasError('required', 'address')" class="text-danger">*Address is required</small>
+                <div class="mb-3" [class.error]="editRestaurantForm.controls['city'].dirty && editRestaurantForm.hasError('required', 'city')" class="text-danger">
                     <label for="city" class="form-label">City</label>
-                    <select name="City" class="form-control" [(ngModel)]="restaurantDetails.cityid">
+                    <select name="City" class="form-control" formControlName="city" [(ngModel)]="restaurantDetails.cityid">
                         <option [value]="city.cityId" *ngFor="let city of citiesInformation">
                             {{ city.city}}
                         </option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <small *ngIf="editRestaurantForm.controls['city'].dirty && editRestaurantForm.hasError('required', 'city')" class="text-danger">*City is required</small>
+                <div class="mb-3" [class.error]="editRestaurantForm.controls['cuisine'].dirty && editRestaurantForm.hasError('required', 'cuisine')" class="text-danger">
                     <label for="cuisine" class="form-label">Cuisine</label>
-                    <select name="Cuisine" class="form-control" [(ngModel)]="restaurantDetails.cuisineid">
+                    <select name="Cuisine" class="form-control" formControlName="cuisine" [(ngModel)]="restaurantDetails.cuisineid">
                         <option [value]="cuis.cuisineId" *ngFor="let cuis of cuisinesInformation">
                             {{ cuis.cuisine}}
                         </option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="rating" class="form-label">Rating</label>
-                    <input type="number" class="form-control" id="rating" name="rating" [(ngModel)]="restaurantDetails.rating">
+                <small *ngIf="editRestaurantForm.controls['cuisine'].dirty && editRestaurantForm.hasError('required', 'cuisine')" class="text-danger">*Cuisine is required</small>
+                <div class="mb-3" [class.error]="editRestaurantForm.controls['rating'].dirty && editRestaurantForm.hasError('required', 'rating')" class="text-danger">
+                    <label for="rating" class="form-label">Rating (Out of 5)</label>
+                    <input type="number" class="form-control" id="rating" name="rating" formControlName="rating" [(ngModel)]="restaurantDetails.rating">
                 </div>
-                <div class="mb-3">
+                <small *ngIf="editRestaurantForm.controls['rating'].dirty && editRestaurantForm.hasError('required', 'rating')" class="text-danger">*Rating is required</small>
+                <div class="mb-3" [class.error]="editRestaurantForm.controls['reviews'].dirty && editRestaurantForm.hasError('required', 'reviews')" class="text-danger">
                     <label for="reviews" class="form-label">Reviews</label>
-                    <input type="text" class="form-control" id="reviews" name="reviews" [(ngModel)]="restaurantDetails.reviews">
+                    <input type="text" class="form-control" id="reviews" name="reviews" formControlName="reviews" [(ngModel)]="restaurantDetails.reviews">
                 </div>
+                <small *ngIf="editRestaurantForm.controls['reviews'].dirty && editRestaurantForm.hasError('required', 'reviews')" class="text-danger">*Reviews is required</small><br><br>
                 <button type="submit" class="btn btn-primary mr-5">Save</button>
                 <button type="button" class="btn btn-danger" (click)="deleteRestaurant(restaurantDetails.restaurantId)">Delete</button>
             </form>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../Services/auth.service';
+import { UserStoreService } from '../Services/user-store.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,9 +9,16 @@ import { AuthService } from '../Services/auth.service';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private auth: AuthService) { }
+  public fullName : string = "";
+  constructor(private auth: AuthService, private userStore: UserStoreService) { }
 
   ngOnInit(): void {
+
+    this.userStore.getFullNameFromStore()
+    .subscribe(val => {
+      let fullNameFromToken = this.auth.getfullNameFromToken();
+      this.fullName = val || fullNameFromToken
+    })
   }
 
   Logout(){

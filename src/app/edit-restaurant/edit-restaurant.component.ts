@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { City } from '../Models/city.model';
@@ -17,6 +18,7 @@ export class EditRestaurantComponent implements OnInit {
 
   cuisinesInformation: Cuisine [] = [];
   citiesInformation: City [] = [];
+  editRestaurantForm!: FormGroup;
   
   restaurantDetails: Restaurant = {
     restaurantId:'',
@@ -28,7 +30,7 @@ export class EditRestaurantComponent implements OnInit {
     reviews: 0
   };
 
-  constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService, private cuisineService: CuisinesService, private cityService: CitiesService, private router: Router, private toast: NgToastService) { }
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private restaurantService: RestaurantsService, private cuisineService: CuisinesService, private cityService: CitiesService, private router: Router, private toast: NgToastService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe({
@@ -65,16 +67,36 @@ export class EditRestaurantComponent implements OnInit {
         console.log(response);
       }
     });
+
+    this.editRestaurantForm = this.fb.group({
+      id: [''],
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      cuisine: ['', Validators.required],
+      rating: ['', Validators.required],
+      reviews: ['', Validators.required]
+    })
   }
 
   updateRestaurant() {
-    this.restaurantService.updateRestaurant(this.restaurantDetails.restaurantId, this.restaurantDetails)
-    .subscribe({
-      next: (response) => {
-        this.toast.success({detail:"Updated", summary: this.restaurantDetails.name + "'s details updated successfully !", duration: 5000});
-        this.router.navigate(['restaurants']);
-      }
-    });
+    if(this.editRestaurantForm.valid)
+    {
+      this.restaurantService.updateRestaurant(this.restaurantDetails.restaurantId, this.restaurantDetails)
+      .subscribe({
+        next: (response) => {
+          this.toast.success({detail:"Updated", summary: this.restaurantDetails.name + "'s details updated successfully !", duration: 5000});
+          this.router.navigate(['restaurants']);
+        },
+        error: (err) => {
+          this.toast.error({detail:"Error", summary: err?.error.message, duration: 5000});
+        }
+      })
+    }
+    else{
+      this.validateAllFormFields(this.editRestaurantForm);
+      this.toast.error({detail:"Error", summary: "Enter all the details !", duration: 5000});
+    }
   }
 
   deleteRestaurant(id: string) {
@@ -87,4 +109,15 @@ export class EditRestaurantComponent implements OnInit {
     });
   }
 
+  private validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field=>{
+      const control = formGroup.get(field);
+      if(control instanceof FormControl){
+        control.markAsDirty({onlySelf:true});
+      }
+      else if(control instanceof FormGroup){
+        this.validateAllFormFields(control);
+      }
+    })   
+  }
 }
